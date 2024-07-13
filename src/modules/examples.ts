@@ -198,8 +198,20 @@ export class UIExampleFactory {
         const mapping = Object.fromEntries(mappingItems)
         const translatedTitle = mapping['titleTranslation']
         const finalTitle = translatedTitle ?? rawTitle
-        const tagNames = item.getTags().map(i=>i.tag).filter(i=>i.startsWith('⭐'))
-        const stars = (tagNames.length === 1) ? tagNames[0] : ''
+        let stars = ''
+        if (item.hasTag('⭐⭐⭐⭐⭐')){
+            stars = '⭐⭐⭐⭐⭐'
+        }else if (item.hasTag('⭐⭐⭐⭐')) {
+            stars = '⭐⭐⭐⭐🌙'
+        }else if (item.hasTag('⭐⭐⭐')) {
+            stars = '⭐⭐⭐🌙🌙'
+        }else if (item.hasTag('⭐⭐')) {
+            stars = '⭐⭐🌙🌙🌙'
+        }else if (item.hasTag('⭐')) {
+            stars = '⭐🌙🌙🌙🌙'
+        }else{
+            stars = '🌙🌙🌙🌙🌙'
+        }
         return `${stars}${finalTitle}`
   }
 
