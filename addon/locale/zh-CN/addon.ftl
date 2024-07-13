@@ -9,3 +9,6 @@ prefs-table-title = 标题
 prefs-table-detail = 详情
 tabpanel-lib-tab-label = 库标签
 tabpanel-reader-tab-label = 阅读器标签
+title-translation-column-name = 标题翻译
+hashtag-tags-column-name = #标签
+paper-stars-column-name = 星级

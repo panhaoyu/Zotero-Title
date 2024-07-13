@@ -192,16 +192,25 @@ export class UIExampleFactory {
 
   @example
   static async registerExtraColumn() {
-    const field = "test1";
-    await Zotero.ItemTreeManager.registerColumns({
-      pluginID: config.addonID,
-      dataKey: field,
-      label: "text column",
-      dataProvider: (item: Zotero.Item, dataKey: string) => {
-        return field + String(item.id);
-      },
-      iconPath: "chrome://zotero/skin/cross.png",
-    });
+    Zotero.Item.prototype.getDisplayTitle = function(){
+
+        const rawTitle =this.getField('title')
+        const translatedTitles = this.getField('extra').split('\n').map(i=>i.split(': ', 1)).filter(i=>i.length===2).find(([k,v])=>k === 'titleTranslation')?.map(i=>i[1])
+        const translatedTitle =  translatedTitles?.length ? translatedTitles[0][1] : rawTitle;
+                const tagNames = this.getTags().map(i=>i.tag).filter(i=>i.startsWith('⭐'))
+        const stars = (tagNames.length === 1) ? tagNames[0] : ''
+        return `${stars}${translatedTitle}`
+    }
+
+    // await Zotero.ItemTreeManager.registerColumns({
+    //   pluginID: config.addonID,
+    //   dataKey: 'hashtag-tags',
+    //   label: getString( "hashtag-tags-column-name"),
+    //   dataProvider: (item: Zotero.Item, dataKey: string) => {
+    //     return item.getTags().map(i=>i.tag).filter(i=>i.startsWith('#')).map(i=>i.split('/').slice(-1)).sort().join(' ')
+    //   },
+    // });
+
   }
 
   @example

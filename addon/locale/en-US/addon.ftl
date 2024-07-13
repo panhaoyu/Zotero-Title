@@ -9,3 +9,6 @@ prefs-table-title = Title
 prefs-table-detail = Detail
 tabpanel-lib-tab-label = Lib Tab
 tabpanel-reader-tab-label = Reader Tab
+title-translation-column-name = Title Translation
+hashtag-tags-column-name = #Tags
+paper-stars-column-name = Stars
