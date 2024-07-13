@@ -1,6 +1,6 @@
 {
   "name": "zotero-title",
-  "version": "0.0.19",
+  "version": "0.0.20",
   "description": "Show better and configurable zotero title column.",
   "config": {
     "addonName": "Zotero Title",
