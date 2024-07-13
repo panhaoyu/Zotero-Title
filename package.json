@@ -1,7 +1,7 @@
 {
-  "name": "zotero-plugin-template",
-  "version": "2.0.2-beta.3",
-  "description": "Zotero Plugin Template",
+  "name": "zotero-title",
+  "version": "0.0.1",
+  "description": "Show better and configurable zotero title column.",
   "config": {
     "addonName": "Zotero Plugin Template",
     "addonID": "addontemplate@euclpts.com",
