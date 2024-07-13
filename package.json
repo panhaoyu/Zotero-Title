@@ -28,17 +28,17 @@
     "update-deps": "npm update --save"
   },
   "dependencies": {
-    "zotero-plugin-toolkit": "^2.3.31"
+    "zotero-plugin-toolkit": "^2.3.37"
   },
   "devDependencies": {
-    "@eslint/js": "^9.3.0",
-    "@types/node": "^20.12.12",
+    "@eslint/js": "^9.7.0",
+    "@types/node": "^20.14.10",
     "eslint": "^9.3.0",
     "prettier": "^3.2.5",
     "typescript": "^5.4.5",
-    "typescript-eslint": "^8.0.0-alpha.20",
+    "typescript-eslint": "^8.0.0-alpha.41",
     "zotero-plugin-scaffold": "^0.0.26",
-    "zotero-types": "^2.0.0"
+    "zotero-types": "^2.0.3"
   },
   "prettier": {
     "printWidth": 80,
