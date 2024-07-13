@@ -191,26 +191,49 @@ export class UIExampleFactory {
     });
   }
 
+  static getDisplayTitle(item: Zotero.Item): string {
+        const rawTitle = item.getField('title')
+        const extra = item.getField('extra').split('\n')
+        const mappingItems = extra.map(i=>i.split(':', 2)).filter(i=>i.length===2)
+        const mapping = Object.fromEntries(mappingItems)
+        const translatedTitle = mapping['titleTranslation']
+        const finalTitle = translatedTitle ?? rawTitle
+        const tagNames = item.getTags().map(i=>i.tag).filter(i=>i.startsWith('⭐'))
+        const stars = (tagNames.length === 1) ? tagNames[0] : ''
+        return `${stars}${finalTitle}`
+  }
+
+
   @example
   static async registerExtraColumn() {
     const rawGetDisplayTitle = Zotero.Item.prototype.getDisplayTitle
-    const newGetDisplayTitle =  function(){
-        const rawTitle =this.getField('title')
-        const translatedTitles = this.getField('extra').split('\n').map(i=>i.split(': ', 1)).filter(i=>i.length===2).find(([k,v])=>k === 'titleTranslation')?.map(i=>i[1])
-        const translatedTitle =  translatedTitles?.length ? translatedTitles[0][1] : rawTitle;
-                const tagNames = this.getTags().map(i=>i.tag).filter(i=>i.startsWith('⭐'))
-        const stars = (tagNames.length === 1) ? tagNames[0] : ''
-        return `${stars}${translatedTitle}`
+    const newGetDisplayTitle = function() {
+      return UIExampleFactory.getDisplayTitle(this)
     }
 
-    // await Zotero.ItemTreeManager.registerColumns({
-    //   pluginID: config.addonID,
-    //   dataKey: 'hashtag-tags',
-    //   label: getString( "hashtag-tags-column-name"),
-    //   dataProvider: (item: Zotero.Item, dataKey: string) => {
-    //     return item.getTags().map(i=>i.tag).filter(i=>i.startsWith('#')).map(i=>i.split('/').slice(-1)).sort().join(' ')
-    //   },
-    // });
+    if (addon.data.env === 'development'){
+      await Zotero.ItemTreeManager.registerColumns({
+        pluginID: config.addonID,
+        dataKey: 'hashtag-tags',
+        label: getString( "hashtag-tags-column-name"),
+        dataProvider: (item: Zotero.Item, dataKey: string) => {
+          return item.getTags().map(i=>i.tag).filter(i=>i.startsWith('#')).map(i=>i.split('/').slice(-1)).sort().join(' ')
+        },
+      });
+
+
+      await Zotero.ItemTreeManager.registerColumns({
+        pluginID: config.addonID,
+        dataKey: 'better-title',
+        label: 'Better Title',
+        dataProvider: (item: Zotero.Item, dataKey: string) => {
+          return UIExampleFactory.getDisplayTitle(item)
+        },
+      });
+    }
+
+
+
 
     if (getPref('enable-title') ?? true){
       Zotero.Item.prototype.getDisplayTitle = newGetDisplayTitle
