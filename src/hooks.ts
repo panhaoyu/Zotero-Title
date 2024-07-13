@@ -19,6 +19,7 @@ async function onStartup() {
   initLocale()
 
   await UIExampleFactory.registerExtraColumn()
+  await BasicExampleFactory.registerPrefs()
 }
 async function onStartupBak() {
   await Promise.all([

@@ -1,5 +1,6 @@
 import { config } from "../../package.json";
 import { getLocaleID, getString } from "../utils/locale";
+import { getPref } from "../utils/prefs";
 
 function example(
   target: any,
@@ -192,8 +193,8 @@ export class UIExampleFactory {
 
   @example
   static async registerExtraColumn() {
-    Zotero.Item.prototype.getDisplayTitle = function(){
-
+    const rawGetDisplayTitle = Zotero.Item.prototype.getDisplayTitle
+    const newGetDisplayTitle =  function(){
         const rawTitle =this.getField('title')
         const translatedTitles = this.getField('extra').split('\n').map(i=>i.split(': ', 1)).filter(i=>i.length===2).find(([k,v])=>k === 'titleTranslation')?.map(i=>i[1])
         const translatedTitle =  translatedTitles?.length ? translatedTitles[0][1] : rawTitle;
@@ -211,7 +212,11 @@ export class UIExampleFactory {
     //   },
     // });
 
+    if (getPref('enable-title') ?? true){
+      Zotero.Item.prototype.getDisplayTitle = newGetDisplayTitle
+    }
   }
+
 
   @example
   static async registerExtraColumnWithCustomCell() {
