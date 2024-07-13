@@ -865,11 +865,11 @@ export class HelperExampleFactory {
   static clipboardExample() {
     new ztoolkit.Clipboard()
       .addText(
-        "![Plugin Template](https://github.com/windingwind/zotero-plugin-template)",
+        "![Plugin Template](https://github.com/panhaoyu/Zotero-Title)",
         "text/unicode",
       )
       .addText(
-        '<a href="https://github.com/windingwind/zotero-plugin-template">Plugin Template</a>',
+        '<a href="https://github.com/panhaoyu/Zotero-Title">Plugin Template</a>',
         "text/html",
       )
       .copy();
