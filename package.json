@@ -3,17 +3,17 @@
   "version": "0.0.1",
   "description": "Show better and configurable zotero title column.",
   "config": {
-    "addonName": "Zotero Plugin Template",
-    "addonID": "addontemplate@euclpts.com",
-    "addonRef": "addontemplate",
-    "addonInstance": "AddonTemplate",
-    "prefsPrefix": "extensions.zotero.addontemplate"
+    "addonName": "Zotero Title",
+    "addonID": "zoterotitle@panhaoyu.com",
+    "addonRef": "zoterotitle",
+    "addonInstance": "ZoteroTitle",
+    "prefsPrefix": "extensions.zotero.zoterotitle"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/windingwind/zotero-plugin-template.git"
+    "url": "git+https://github.com/panhaoyu/Zotero-Title.git"
   },
-  "author": "windingwind",
+  "author": "panhaoyu",
   "bugs": {
     "url": "https://github.com/windingwind/zotero-plugin-template/issues"
   },
