@@ -5,10 +5,10 @@ import { getPref } from "../utils/prefs";
 function example(
   target: any,
   propertyKey: string | symbol,
-  descriptor: PropertyDescriptor,
+  descriptor: PropertyDescriptor
 ) {
   const original = descriptor.value;
-  descriptor.value = function (...args: any) {
+  descriptor.value = function(...args: any) {
     try {
       ztoolkit.log(`Calling example ${target.name}.${String(propertyKey)}`);
       return original.apply(this, args);
@@ -28,21 +28,21 @@ export class BasicExampleFactory {
         event: string,
         type: string,
         ids: number[] | string[],
-        extraData: { [key: string]: any },
+        extraData: { [key: string]: any }
       ) => {
         if (!addon?.data.alive) {
           this.unregisterNotifier(notifierID);
           return;
         }
         addon.hooks.onNotify(event, type, ids, extraData);
-      },
+      }
     };
 
     // Register the callback in Zotero as an item observer
     const notifierID = Zotero.Notifier.registerObserver(callback, [
       "tab",
       "item",
-      "file",
+      "file"
     ]);
 
     // Unregister callback when the window closes (important to avoid a memory leak)
@@ -51,7 +51,7 @@ export class BasicExampleFactory {
       (e: Event) => {
         this.unregisterNotifier(notifierID);
       },
-      false,
+      false
     );
   }
 
@@ -61,7 +61,7 @@ export class BasicExampleFactory {
       .createLine({
         text: "Open Tab Detected!",
         type: "success",
-        progress: 100,
+        progress: 100
       })
       .show();
   }
@@ -78,7 +78,7 @@ export class BasicExampleFactory {
       src: rootURI + "chrome/content/preferences.xhtml",
       label: getString("prefs-title"),
       image: `chrome://${config.addonRef}/content/icons/favicon.png`,
-      defaultXUL: true,
+      defaultXUL: true
     };
     ztoolkit.PreferencePane.register(prefOptions);
   }
@@ -101,7 +101,7 @@ export class KeyExampleFactory {
     new ztoolkit.ProgressWindow(config.addonName)
       .createLine({
         text: "Example Shortcuts: Alt+L/S/C",
-        type: "success",
+        type: "success"
       })
       .show();
   }
@@ -111,7 +111,7 @@ export class KeyExampleFactory {
     new ztoolkit.ProgressWindow(config.addonName)
       .createLine({
         text: "Larger!",
-        type: "default",
+        type: "default"
       })
       .show();
   }
@@ -121,7 +121,7 @@ export class KeyExampleFactory {
     new ztoolkit.ProgressWindow(config.addonName)
       .createLine({
         text: "Smaller!",
-        type: "default",
+        type: "default"
       })
       .show();
   }
@@ -134,8 +134,8 @@ export class UIExampleFactory {
       properties: {
         type: "text/css",
         rel: "stylesheet",
-        href: `chrome://${config.addonRef}/content/zoteroPane.css`,
-      },
+        href: `chrome://${config.addonRef}/content/zoteroPane.css`
+      }
     });
     document.documentElement.appendChild(styles);
     document
@@ -152,7 +152,7 @@ export class UIExampleFactory {
       id: "zotero-itemmenu-addontemplate-test",
       label: getString("menuitem-label"),
       commandListener: (ev) => addon.hooks.onDialogEvents("dialogExample"),
-      icon: menuIcon,
+      icon: menuIcon
     });
   }
 
@@ -167,89 +167,89 @@ export class UIExampleFactory {
           {
             tag: "menuitem",
             label: getString("menuitem-submenulabel"),
-            oncommand: "alert('Hello World! Sub Menuitem.')",
-          },
-        ],
+            oncommand: "alert('Hello World! Sub Menuitem.')"
+          }
+        ]
       },
       "before",
       document.querySelector(
-        "#zotero-itemmenu-addontemplate-test",
-      ) as XUL.MenuItem,
+        "#zotero-itemmenu-addontemplate-test"
+      ) as XUL.MenuItem
     );
   }
 
   @example
   static registerWindowMenuWithSeparator() {
     ztoolkit.Menu.register("menuFile", {
-      tag: "menuseparator",
+      tag: "menuseparator"
     });
     // menu->File menuitem
     ztoolkit.Menu.register("menuFile", {
       tag: "menuitem",
       label: getString("menuitem-filemenulabel"),
-      oncommand: "alert('Hello World! File Menuitem.')",
+      oncommand: "alert('Hello World! File Menuitem.')"
     });
   }
 
   static getDisplayTitle(item: Zotero.Item): string {
-        const rawTitle = item.getField('title')
-        const extra = item.getField('extra').split('\n')
-        const mappingItems = extra.map(i=>i.split(':', 2)).filter(i=>i.length===2)
-        const mapping = Object.fromEntries(mappingItems)
-        const translatedTitle = mapping['titleTranslation']
-        const finalTitle = translatedTitle ?? rawTitle
-        let stars = ''
-        if (item.hasTag('⭐⭐⭐⭐⭐')){
-            stars = '⭐⭐⭐⭐⭐'
-        }else if (item.hasTag('⭐⭐⭐⭐')) {
-            stars = '⭐⭐⭐⭐🌙'
-        }else if (item.hasTag('⭐⭐⭐')) {
-            stars = '⭐⭐⭐🌙🌙'
-        }else if (item.hasTag('⭐⭐')) {
-            stars = '⭐⭐🌙🌙🌙'
-        }else if (item.hasTag('⭐')) {
-            stars = '⭐🌙🌙🌙🌙'
-        }else{
-            stars = '🌙🌙🌙🌙🌙'
-        }
-        return `${stars}${finalTitle}`
+    const rawTitle = item.getField("title");
+    const extra = item.getField("extra").split("\n");
+    const mappingItems = extra.map(i => i.split(":", 2)).filter(i => i.length === 2);
+    const mapping = Object.fromEntries(mappingItems);
+    const translatedTitle = mapping["titleTranslation"];
+    const finalTitle = translatedTitle ?? rawTitle;
+
+    let stars = "";
+    if (getPref("enable-star")) {
+      if (item.hasTag("⭐⭐⭐⭐⭐")) {
+        stars = "⭐⭐⭐⭐⭐";
+      } else if (item.hasTag("⭐⭐⭐⭐")) {
+        stars = "⭐⭐⭐⭐🌙";
+      } else if (item.hasTag("⭐⭐⭐")) {
+        stars = "⭐⭐⭐🌙🌙";
+      } else if (item.hasTag("⭐⭐")) {
+        stars = "⭐⭐🌙🌙🌙";
+      } else if (item.hasTag("⭐")) {
+        stars = "⭐🌙🌙🌙🌙";
+      } else {
+        stars = "🌙🌙🌙🌙🌙";
+      }
+    }
+
+    return `${stars}${finalTitle}`;
   }
 
 
   @example
   static async registerExtraColumn() {
-    const rawGetDisplayTitle = Zotero.Item.prototype.getDisplayTitle
+    const rawGetDisplayTitle = Zotero.Item.prototype.getDisplayTitle;
     const newGetDisplayTitle = function() {
-      return UIExampleFactory.getDisplayTitle(this)
-    }
+      return UIExampleFactory.getDisplayTitle(this);
+    };
 
-    if (addon.data.env === 'development'){
+    if (addon.data.env === "development") {
       await Zotero.ItemTreeManager.registerColumns({
         pluginID: config.addonID,
-        dataKey: 'hashtag-tags',
-        label: getString( "hashtag-tags-column-name"),
+        dataKey: "hashtag-tags",
+        label: getString("hashtag-tags-column-name"),
         dataProvider: (item: Zotero.Item, dataKey: string) => {
-          return item.getTags().map(i=>i.tag).filter(i=>i.startsWith('#')).map(i=>i.split('/').slice(-1)).sort().join(' ')
-        },
+          return item.getTags().map(i => i.tag).filter(i => i.startsWith("#")).map(i => i.split("/").slice(-1)).sort().join(" ");
+        }
       });
 
 
       await Zotero.ItemTreeManager.registerColumns({
         pluginID: config.addonID,
-        dataKey: 'better-title',
-        label: 'Better Title',
+        dataKey: "better-title",
+        label: "Better Title",
         dataProvider: (item: Zotero.Item, dataKey: string) => {
-          return UIExampleFactory.getDisplayTitle(item)
-        },
+          return UIExampleFactory.getDisplayTitle(item);
+        }
       });
     }
 
 
-
-
-    if (getPref('enable-title') ?? true){
-      Zotero.Item.prototype.getDisplayTitle = newGetDisplayTitle
-    }
+    Zotero.Item.prototype.getDisplayTitle = newGetDisplayTitle;
   }
 
 
@@ -267,13 +267,13 @@ export class UIExampleFactory {
         ztoolkit.log("Custom column cell is rendered!");
         const span = document.createElementNS(
           "http://www.w3.org/1999/xhtml",
-          "span",
+          "span"
         );
         span.className = `cell ${column.className}`;
         span.style.background = "#0dd068";
         span.innerText = "⭐" + data;
         return span;
-      },
+      }
     });
   }
 
@@ -294,12 +294,12 @@ export class UIExampleFactory {
           ztoolkit.ExtraField.setExtraField(
             item,
             "itemBoxFieldEditable",
-            value,
+            value
           );
           return true;
         },
-        index: 1,
-      },
+        index: 1
+      }
     );
 
     await ztoolkit.ItemBox.register(
@@ -312,8 +312,8 @@ export class UIExampleFactory {
       },
       {
         editable: false,
-        index: 2,
-      },
+        index: 2
+      }
     );
   }
 
@@ -324,19 +324,19 @@ export class UIExampleFactory {
       pluginID: config.addonID,
       header: {
         l10nID: getLocaleID("item-section-example1-head-text"),
-        icon: "chrome://zotero/skin/16/universal/book.svg",
+        icon: "chrome://zotero/skin/16/universal/book.svg"
       },
       sidenav: {
         l10nID: getLocaleID("item-section-example1-sidenav-tooltip"),
-        icon: "chrome://zotero/skin/20/universal/save.svg",
+        icon: "chrome://zotero/skin/20/universal/save.svg"
       },
       onRender: ({ body, item, editable, tabType }) => {
         body.textContent = JSON.stringify({
           id: item?.id,
           editable,
-          tabType,
+          tabType
         });
-      },
+      }
     });
   }
 
@@ -350,14 +350,14 @@ export class UIExampleFactory {
         // Optional
         l10nArgs: `{"status": "Initialized"}`,
         // Can also have a optional dark icon
-        icon: "chrome://zotero/skin/16/universal/book.svg",
+        icon: "chrome://zotero/skin/16/universal/book.svg"
       },
       sidenav: {
         l10nID: getLocaleID("item-section-example2-sidenav-tooltip"),
-        icon: "chrome://zotero/skin/20/universal/save.svg",
+        icon: "chrome://zotero/skin/20/universal/save.svg"
       },
       // Optional
-      bodyXHTML: '<html:h1 id="test">THIS IS TEST</html:h1>',
+      bodyXHTML: "<html:h1 id=\"test\">THIS IS TEST</html:h1>",
       // Optional, Called when the section is first created, must be synchronous
       onInit: ({ item }) => {
         ztoolkit.log("Section init!", item?.id);
@@ -374,12 +374,12 @@ export class UIExampleFactory {
       },
       // Called when the section is asked to render, must be synchronous.
       onRender: ({
-        body,
-        item,
-        setL10nArgs,
-        setSectionSummary,
-        setSectionButtonStatus,
-      }) => {
+                   body,
+                   item,
+                   setL10nArgs,
+                   setSectionSummary,
+                   setSectionButtonStatus
+                 }) => {
         ztoolkit.log("Section rendered!", item?.id);
         const title = body.querySelector("#test") as HTMLElement;
         title.style.color = "red";
@@ -390,12 +390,12 @@ export class UIExampleFactory {
       },
       // Optional, can be asynchronous.
       onAsyncRender: async ({
-        body,
-        item,
-        setL10nArgs,
-        setSectionSummary,
-        setSectionButtonStatus,
-      }) => {
+                              body,
+                              item,
+                              setL10nArgs,
+                              setSectionSummary,
+                              setSectionButtonStatus
+                            }) => {
         ztoolkit.log("Section secondary render start!", item?.id);
         await Zotero.Promise.delay(1000);
         ztoolkit.log("Section secondary render finish!", item?.id);
@@ -419,9 +419,9 @@ export class UIExampleFactory {
           onClick: ({ item, paneID }) => {
             ztoolkit.log("Section clicked!", item?.id);
             Zotero.ItemPaneManager.unregisterSection(paneID);
-          },
-        },
-      ],
+          }
+        }
+      ]
     });
   }
 }
@@ -435,8 +435,8 @@ export class PromptExampleFactory {
         label: "Plugin Template",
         callback(prompt) {
           ztoolkit.getGlobal("alert")("Command triggered!");
-        },
-      },
+        }
+      }
     ]);
   }
 
@@ -465,7 +465,7 @@ export class PromptExampleFactory {
             const publicationTitle = item.getField(
               "publicationTitle",
               false,
-              true,
+              true
             );
             if (publicationTitle) {
               nodes.push(`<i>${publicationTitle}</i>`);
@@ -508,6 +508,7 @@ export class PromptExampleFactory {
             str.length && (str += ".");
             return str;
           }
+
           function filter(ids: number[]) {
             ids = ids.filter(async (id) => {
               const item = (await Zotero.Items.getAsync(id)) as Zotero.Item;
@@ -515,6 +516,7 @@ export class PromptExampleFactory {
             });
             return ids;
           }
+
           const text = prompt.inputNode.value;
           prompt.showTip("Searching...");
           const s = new Zotero.Search();
@@ -540,7 +542,7 @@ export class PromptExampleFactory {
               "isAfter",
               "contains",
               "doesNotContain",
-              "beginsWith",
+              "beginsWith"
             ];
             let hasValidCondition = false;
             let joinMode = "all";
@@ -557,12 +559,12 @@ export class PromptExampleFactory {
                 s.addCondition(
                   "joinMode",
                   joinMode as Zotero.Search.Operator,
-                  "",
+                  ""
                 );
                 s.addCondition(
                   conditions[0] as string,
                   conditions[1] as Zotero.Search.Operator,
-                  conditions[2] as string,
+                  conditions[2] as string
                 );
               }
             });
@@ -582,10 +584,10 @@ export class PromptExampleFactory {
                 listeners: [
                   {
                     type: "mousemove",
-                    listener: function () {
+                    listener: function() {
                       // @ts-ignore ignore
                       prompt.selectItem(this);
-                    },
+                    }
                   },
                   {
                     type: "click",
@@ -593,13 +595,13 @@ export class PromptExampleFactory {
                       prompt.promptNode.style.display = "none";
                       Zotero_Tabs.select("zotero-pane");
                       ZoteroPane.selectItem(item.id);
-                    },
-                  },
+                    }
+                  }
                 ],
                 styles: {
                   display: "flex",
                   flexDirection: "column",
-                  justifyContent: "start",
+                  justifyContent: "start"
                 },
                 children: [
                   {
@@ -608,24 +610,24 @@ export class PromptExampleFactory {
                       fontWeight: "bold",
                       overflow: "hidden",
                       textOverflow: "ellipsis",
-                      whiteSpace: "nowrap",
+                      whiteSpace: "nowrap"
                     },
                     properties: {
-                      innerText: title,
-                    },
+                      innerText: title
+                    }
                   },
                   {
                     tag: "span",
                     styles: {
                       overflow: "hidden",
                       textOverflow: "ellipsis",
-                      whiteSpace: "nowrap",
+                      whiteSpace: "nowrap"
                     },
                     properties: {
-                      innerHTML: getItemDescription(item),
-                    },
-                  },
-                ],
+                      innerHTML: getItemDescription(item)
+                    }
+                  }
+                ]
               });
               container.appendChild(ele);
             });
@@ -634,8 +636,8 @@ export class PromptExampleFactory {
             prompt.exit();
             prompt.showTip("Not Found.");
           }
-        },
-      },
+        }
+      }
     ]);
   }
 
@@ -657,12 +659,12 @@ export class PromptExampleFactory {
             `You select ${items.length} items!\n\n${items
               .map(
                 (item, index) =>
-                  String(index + 1) + ". " + item.getDisplayTitle(),
+                  String(index + 1) + ". " + item.getDisplayTitle()
               )
-              .join("\n")}`,
+              .join("\n")}`
           );
-        },
-      },
+        }
+      }
     ]);
   }
 }
@@ -678,34 +680,34 @@ export class HelperExampleFactory {
       },
       unloadCallback: () => {
         ztoolkit.log(dialogData, "Dialog closed!");
-      },
+      }
     };
     const dialogHelper = new ztoolkit.Dialog(10, 2)
       .addCell(0, 0, {
         tag: "h1",
-        properties: { innerHTML: "Helper Examples" },
+        properties: { innerHTML: "Helper Examples" }
       })
       .addCell(1, 0, {
         tag: "h2",
-        properties: { innerHTML: "Dialog Data Binding" },
+        properties: { innerHTML: "Dialog Data Binding" }
       })
       .addCell(2, 0, {
         tag: "p",
         properties: {
           innerHTML:
-            "Elements with attribute 'data-bind' are binded to the prop under 'dialogData' with the same name.",
+            "Elements with attribute 'data-bind' are binded to the prop under 'dialogData' with the same name."
         },
         styles: {
-          width: "200px",
-        },
+          width: "200px"
+        }
       })
       .addCell(3, 0, {
         tag: "label",
         namespace: "html",
         attributes: {
-          for: "dialog-checkbox",
+          for: "dialog-checkbox"
         },
-        properties: { innerHTML: "bind:checkbox" },
+        properties: { innerHTML: "bind:checkbox" }
       })
       .addCell(
         3,
@@ -717,19 +719,19 @@ export class HelperExampleFactory {
           attributes: {
             "data-bind": "checkboxValue",
             "data-prop": "checked",
-            type: "checkbox",
+            type: "checkbox"
           },
-          properties: { label: "Cell 1,0" },
+          properties: { label: "Cell 1,0" }
         },
-        false,
+        false
       )
       .addCell(4, 0, {
         tag: "label",
         namespace: "html",
         attributes: {
-          for: "dialog-input",
+          for: "dialog-input"
         },
-        properties: { innerHTML: "bind:input" },
+        properties: { innerHTML: "bind:input" }
       })
       .addCell(
         4,
@@ -741,14 +743,14 @@ export class HelperExampleFactory {
           attributes: {
             "data-bind": "inputValue",
             "data-prop": "value",
-            type: "text",
-          },
+            type: "text"
+          }
         },
-        false,
+        false
       )
       .addCell(5, 0, {
         tag: "h2",
-        properties: { innerHTML: "Toolkit Helper Examples" },
+        properties: { innerHTML: "Toolkit Helper Examples" }
       })
       .addCell(
         6,
@@ -757,29 +759,29 @@ export class HelperExampleFactory {
           tag: "button",
           namespace: "html",
           attributes: {
-            type: "button",
+            type: "button"
           },
           listeners: [
             {
               type: "click",
               listener: (e: Event) => {
                 addon.hooks.onDialogEvents("clipboardExample");
-              },
-            },
+              }
+            }
           ],
           children: [
             {
               tag: "div",
               styles: {
-                padding: "2.5px 15px",
+                padding: "2.5px 15px"
               },
               properties: {
-                innerHTML: "example:clipboard",
-              },
-            },
-          ],
+                innerHTML: "example:clipboard"
+              }
+            }
+          ]
         },
-        false,
+        false
       )
       .addCell(
         7,
@@ -788,29 +790,29 @@ export class HelperExampleFactory {
           tag: "button",
           namespace: "html",
           attributes: {
-            type: "button",
+            type: "button"
           },
           listeners: [
             {
               type: "click",
               listener: (e: Event) => {
                 addon.hooks.onDialogEvents("filePickerExample");
-              },
-            },
+              }
+            }
           ],
           children: [
             {
               tag: "div",
               styles: {
-                padding: "2.5px 15px",
+                padding: "2.5px 15px"
               },
               properties: {
-                innerHTML: "example:filepicker",
-              },
-            },
-          ],
+                innerHTML: "example:filepicker"
+              }
+            }
+          ]
         },
-        false,
+        false
       )
       .addCell(
         8,
@@ -819,29 +821,29 @@ export class HelperExampleFactory {
           tag: "button",
           namespace: "html",
           attributes: {
-            type: "button",
+            type: "button"
           },
           listeners: [
             {
               type: "click",
               listener: (e: Event) => {
                 addon.hooks.onDialogEvents("progressWindowExample");
-              },
-            },
+              }
+            }
           ],
           children: [
             {
               tag: "div",
               styles: {
-                padding: "2.5px 15px",
+                padding: "2.5px 15px"
               },
               properties: {
-                innerHTML: "example:progressWindow",
-              },
-            },
-          ],
+                innerHTML: "example:progressWindow"
+              }
+            }
+          ]
         },
-        false,
+        false
       )
       .addCell(
         9,
@@ -850,29 +852,29 @@ export class HelperExampleFactory {
           tag: "button",
           namespace: "html",
           attributes: {
-            type: "button",
+            type: "button"
           },
           listeners: [
             {
               type: "click",
               listener: (e: Event) => {
                 addon.hooks.onDialogEvents("vtableExample");
-              },
-            },
+              }
+            }
           ],
           children: [
             {
               tag: "div",
               styles: {
-                padding: "2.5px 15px",
+                padding: "2.5px 15px"
               },
               properties: {
-                innerHTML: "example:virtualized-table",
-              },
-            },
-          ],
+                innerHTML: "example:virtualized-table"
+              }
+            }
+          ]
         },
-        false,
+        false
       )
       .addButton("Confirm", "confirm")
       .addButton("Cancel", "cancel")
@@ -880,9 +882,9 @@ export class HelperExampleFactory {
         noClose: true,
         callback: (e) => {
           dialogHelper.window?.alert(
-            "Help Clicked! Dialog will not be closed.",
+            "Help Clicked! Dialog will not be closed."
           );
-        },
+        }
       })
       .setDialogData(dialogData)
       .open("Dialog Example");
@@ -890,9 +892,9 @@ export class HelperExampleFactory {
     await dialogData.unloadLock.promise;
     addon.data.dialog = undefined;
     addon.data.alive &&
-      ztoolkit.getGlobal("alert")(
-        `Close dialog with ${dialogData._lastButtonId}.\nCheckbox: ${dialogData.checkboxValue}\nInput: ${dialogData.inputValue}.`,
-      );
+    ztoolkit.getGlobal("alert")(
+      `Close dialog with ${dialogData._lastButtonId}.\nCheckbox: ${dialogData.checkboxValue}\nInput: ${dialogData.inputValue}.`
+    );
     ztoolkit.log(dialogData);
   }
 
@@ -901,11 +903,11 @@ export class HelperExampleFactory {
     new ztoolkit.Clipboard()
       .addText(
         "![Plugin Template](https://github.com/panhaoyu/Zotero-Title)",
-        "text/unicode",
+        "text/unicode"
       )
       .addText(
-        '<a href="https://github.com/panhaoyu/Zotero-Title">Plugin Template</a>',
-        "text/html",
+        "<a href=\"https://github.com/panhaoyu/Zotero-Title\">Plugin Template</a>",
+        "text/html"
       )
       .copy();
     ztoolkit.getGlobal("alert")("Copied!");
@@ -918,9 +920,9 @@ export class HelperExampleFactory {
       "open",
       [
         ["PNG File(*.png)", "*.png"],
-        ["Any", "*.*"],
+        ["Any", "*.*"]
       ],
-      "image.png",
+      "image.png"
     ).open();
     ztoolkit.getGlobal("alert")(`Selected ${path}`);
   }
@@ -931,7 +933,7 @@ export class HelperExampleFactory {
       .createLine({
         text: "ProgressWindow Example!",
         type: "success",
-        progress: 100,
+        progress: 100
       })
       .show();
   }

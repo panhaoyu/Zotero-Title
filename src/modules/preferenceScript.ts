@@ -13,13 +13,13 @@ export async function registerPrefsScripts(_window: Window) {
           dataKey: "title",
           label: getString("prefs-table-title"),
           fixedWidth: true,
-          width: 100,
+          width: 100
         },
         {
           dataKey: "detail",
-          label: getString("prefs-table-detail"),
-        },
-      ],
+          label: getString("prefs-table-detail")
+        }
+      ]
       // rows: [
       //   {
       //     title: "Orange",
@@ -60,65 +60,66 @@ async function updatePrefsUI() {
   //     staticColumns: true,
   //     disableFontSizeScaling: true,
   //   })
-    // .setProp("getRowCount", () => addon.data.prefs?.rows.length || 0)
-    // .setProp(
-    //   "getRowData",
-    //   (index) =>
-    //     addon.data.prefs?.rows[index] || {
-    //       title: "no data",
-    //       detail: "no data",
-    //     },
-    // )
-    // // Show a progress window when selection changes
-    // .setProp("onSelectionChange", (selection) => {
-    //   new ztoolkit.ProgressWindow(config.addonName)
-    //     .createLine({
-    //       text: `Selected line: ${addon.data.prefs?.rows
-    //         .filter((v, i) => selection.isSelected(i))
-    //         .map((row) => row.title)
-    //         .join(",")}`,
-    //       progress: 100,
-    //     })
-    //     .show();
-    // })
-    // When pressing delete, delete selected line and refresh table.
-    // Returning false to prevent default event.
-    // .setProp("onKeyDown", (event: KeyboardEvent) => {
-    //   if (event.key == "Delete" || (Zotero.isMac && event.key == "Backspace")) {
-    //     addon.data.prefs!.rows =
-    //       addon.data.prefs?.rows.filter(
-    //         (v, i) => !tableHelper.treeInstance.selection.isSelected(i),
-    //       ) || [];
-    //     tableHelper.render();
-    //     return false;
-    //   }
-    //   return true;
-    // })
-    // // For find-as-you-type
-    // .setProp(
-    //   "getRowString",
-    //   (index) => addon.data.prefs?.rows[index].title || "",
-    // )
-    // // Render the table.
-    // .render(-1, () => {
-    //   renderLock.resolve();
-    // });
+  // .setProp("getRowCount", () => addon.data.prefs?.rows.length || 0)
+  // .setProp(
+  //   "getRowData",
+  //   (index) =>
+  //     addon.data.prefs?.rows[index] || {
+  //       title: "no data",
+  //       detail: "no data",
+  //     },
+  // )
+  // // Show a progress window when selection changes
+  // .setProp("onSelectionChange", (selection) => {
+  //   new ztoolkit.ProgressWindow(config.addonName)
+  //     .createLine({
+  //       text: `Selected line: ${addon.data.prefs?.rows
+  //         .filter((v, i) => selection.isSelected(i))
+  //         .map((row) => row.title)
+  //         .join(",")}`,
+  //       progress: 100,
+  //     })
+  //     .show();
+  // })
+  // When pressing delete, delete selected line and refresh table.
+  // Returning false to prevent default event.
+  // .setProp("onKeyDown", (event: KeyboardEvent) => {
+  //   if (event.key == "Delete" || (Zotero.isMac && event.key == "Backspace")) {
+  //     addon.data.prefs!.rows =
+  //       addon.data.prefs?.rows.filter(
+  //         (v, i) => !tableHelper.treeInstance.selection.isSelected(i),
+  //       ) || [];
+  //     tableHelper.render();
+  //     return false;
+  //   }
+  //   return true;
+  // })
+  // // For find-as-you-type
+  // .setProp(
+  //   "getRowString",
+  //   (index) => addon.data.prefs?.rows[index].title || "",
+  // )
+  // // Render the table.
+  // .render(-1, () => {
+  //   renderLock.resolve();
+  // });
   await renderLock.promise;
   ztoolkit.log("Preference table rendered!");
 }
 
 function bindPrefEvents() {
-  addon.data
-    .prefs!.window.document.querySelector(
-      `#zotero-prefpane-${config.addonRef}-enable`,
-    )
-    ?.addEventListener("command", (e) => {
-      // ztoolkit.log(e);
-      setPref('enable-title', (e.target as XUL.Checkbox).checked)
-      // addon.data.prefs!.window.alert(
-      //   `Successfully changed to ${(e.target as XUL.Checkbox).checked}!`,
-      // );
-    });
+  // Save the preferences
+  // addon.data.prefs!.window.document.querySelector(`#zotero-prefpane-${config.addonRef}-enable`)?.addEventListener("command", (e) => {
+  //   // ztoolkit.log(e);
+  //   setPref("enable-title", (e.target as XUL.Checkbox).checked);
+  //   // addon.data.prefs!.window.alert(
+  //   //   `Successfully changed to ${(e.target as XUL.Checkbox).checked}!`,
+  //   // );
+  // });
+
+  addon.data.prefs!.window.document.querySelector(`#zotero-prefpane-${config.addonRef}-star-enable`)?.addEventListener("command", (e) => {
+    setPref("enable-star", (e.target as XUL.Checkbox).checked);
+  });
 
   // addon.data
   //   .prefs!.window.document.querySelector(
