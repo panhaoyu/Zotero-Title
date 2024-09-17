@@ -11,7 +11,8 @@ async function onStartup() {
     Zotero.uiReadyPromise
   ]);
   initLocale();
-  await UIExampleFactory.registerExtraColumn();
+  await UIExampleFactory.registerTitle();
+  await UIExampleFactory.registerShortcuts();
   await BasicExampleFactory.registerPrefs();
 }
 

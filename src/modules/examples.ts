@@ -44,9 +44,37 @@ export class UIExampleFactory {
     return `${stars}${finalTitle}`;
   }
 
-  static async registerExtraColumn() {
+  static async registerTitle() {
     Zotero.Item.prototype.getDisplayTitle = function() {
       return UIExampleFactory.getDisplayTitle(this);
     };
+  }
+
+  static async registerShortcuts() {
+    function func(value: null) {
+      const pane = Zotero.getActiveZoteroPane();
+      const items = pane.getSelectedItems();
+      ztoolkit.log(items);
+
+      for (const item of items) {
+        const tags = item.getTags();
+        //   todo 删除⭐⭐⭐⭐⭐ ⭐⭐⭐⭐ ⭐⭐⭐ ⭐⭐ ⭐，然后根据value重新添加相应tag
+      }
+    }
+
+    ztoolkit.Keyboard.register((ev, keyOptions) => {
+      if (ev.ctrlKey) {
+        switch (ev.key) {
+          case "1":
+          case "2":
+          case "3":
+          case "4":
+          case "5":
+            func(Number.parseInt(ev.key));
+            break;
+        }
+      }
+    });
+
   }
 }
