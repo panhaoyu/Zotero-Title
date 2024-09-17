@@ -12,7 +12,6 @@ async function onStartup() {
   ]);
   initLocale();
   await UIExampleFactory.registerExtraColumn();
-  await UIExampleFactory.registerExtraColumnWithCustomCell();
   await BasicExampleFactory.registerPrefs();
 }
 
