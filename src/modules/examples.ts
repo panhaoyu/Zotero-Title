@@ -51,14 +51,17 @@ export class UIExampleFactory {
   }
 
   static async registerShortcuts() {
-    function func(value: null) {
+    function func(value: number | null) {
       const pane = Zotero.getActiveZoteroPane();
       const items = pane.getSelectedItems();
-      ztoolkit.log(items);
-
       for (const item of items) {
-        const tags = item.getTags();
-        //   todo 删除⭐⭐⭐⭐⭐ ⭐⭐⭐⭐ ⭐⭐⭐ ⭐⭐ ⭐，然后根据value重新添加相应tag
+        const starTags = ["⭐⭐⭐⭐⭐", "⭐⭐⭐⭐", "⭐⭐⭐", "⭐⭐", "⭐"];
+        for (const tag of starTags) {
+          if (item.hasTag(tag)) {
+            item.removeTag(tag);
+          }
+        }
+        item.addTag("⭐".repeat(value));
       }
     }
 
@@ -75,6 +78,5 @@ export class UIExampleFactory {
         }
       }
     });
-
   }
 }
