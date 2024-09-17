@@ -45,7 +45,6 @@ export class UIExampleFactory {
   }
 
   static async registerExtraColumn() {
-    // const rawGetDisplayTitle = Zotero.Item.prototype.getDisplayTitle;
     Zotero.Item.prototype.getDisplayTitle = function() {
       return UIExampleFactory.getDisplayTitle(this);
     };
