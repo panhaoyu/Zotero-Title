@@ -14,34 +14,30 @@ export class BasicExampleFactory {
   }
 }
 
-
 export class UIExampleFactory {
   static getDisplayTitle(item: Zotero.Item): string {
     const rawTitle = item.getField("title");
     const extra = item.getField("extra").split("\n");
-    const mappingItems = extra.map(i => i.split(":", 2)).filter(i => i.length === 2);
-    const mapping = Object.fromEntries(mappingItems);
-    const translatedTitle = mapping["titleTranslation"];
-    const finalTitle = translatedTitle ?? rawTitle;
+    const mapping = Object.fromEntries(
+      extra.map(i => i.split(":", 2)).filter(i => i.length === 2)
+    );
+    const finalTitle = mapping["titleTranslation"] ?? rawTitle;
 
-    let stars = "";
-    if (getPref("enable-star")) {
-      if (item.hasTag("⭐⭐⭐⭐⭐")) {
-        stars = "⭐⭐⭐⭐⭐";
-      } else if (item.hasTag("⭐⭐⭐⭐")) {
-        stars = "⭐⭐⭐⭐🌙";
-      } else if (item.hasTag("⭐⭐⭐")) {
-        stars = "⭐⭐⭐🌙🌙";
-      } else if (item.hasTag("⭐⭐")) {
-        stars = "⭐⭐🌙🌙🌙";
-      } else if (item.hasTag("⭐")) {
-        stars = "⭐🌙🌙🌙🌙";
-      } else {
-        stars = "🌙🌙🌙🌙🌙";
-      }
-    }
+    const stars = UIExampleFactory.getStarRating(item);
 
     return `${stars}${finalTitle}`;
+  }
+
+  static getStarRating(item: Zotero.Item): string {
+    if (!getPref("enable-star")) return "";
+
+    if (item.hasTag("⭐⭐⭐⭐⭐")) return "⭐⭐⭐⭐⭐";
+    if (item.hasTag("⭐⭐⭐⭐")) return "⭐⭐⭐⭐🌙";
+    if (item.hasTag("⭐⭐⭐")) return "⭐⭐⭐🌙🌙";
+    if (item.hasTag("⭐⭐")) return "⭐⭐🌙🌙🌙";
+    if (item.hasTag("⭐")) return "⭐🌙🌙🌙🌙";
+
+    return "🌙🌙🌙🌙🌙";
   }
 
   static async registerTitle() {
@@ -51,29 +47,21 @@ export class UIExampleFactory {
   }
 
   static async registerShortcuts() {
-    async function func(value: number | null) {
-      const starTags = ["⭐⭐⭐⭐⭐", "⭐⭐⭐⭐", "⭐⭐⭐", "⭐⭐", "⭐"];
-      const pane = Zotero.getActiveZoteroPane();
-      const items = pane.getSelectedItems();
-      for (const item of items) {
-        for (const tag of starTags) if (item.hasTag(tag)) item.removeTag(tag);
-        if (value > 0) item.addTag("⭐".repeat(value));
-      }
-    }
-
     ztoolkit.Keyboard.register((ev, keyOptions) => {
-      if (ev.ctrlKey && ev.altKey) {
-        switch (ev.key) {
-          case "0":
-          case "1":
-          case "2":
-          case "3":
-          case "4":
-          case "5":
-            func(Number.parseInt(ev.key));
-            break;
-        }
+      if (ev.ctrlKey && ev.altKey && /^[0-5]$/.test(ev.key)) {
+        UIExampleFactory.updateStarRating(Number.parseInt(ev.key));
       }
     });
+  }
+
+  static async updateStarRating(value: number) {
+    const starTags = ["⭐⭐⭐⭐⭐", "⭐⭐⭐⭐", "⭐⭐⭐", "⭐⭐", "⭐"];
+    const pane = Zotero.getActiveZoteroPane();
+    const items = pane.getSelectedItems();
+
+    for (const item of items) {
+      for (const tag of starTags) item.removeTag(tag);
+      if (value > 0) item.addTag("⭐".repeat(value));
+    }
   }
 }
