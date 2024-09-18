@@ -15,6 +15,14 @@ export class BasicExampleFactory {
 }
 
 export class UIExampleFactory {
+  private static readonly starTags: { [key: string]: string } = {
+    "⭐⭐⭐⭐⭐": "⭐⭐⭐⭐⭐",
+    "⭐⭐⭐⭐": "⭐⭐⭐⭐🌙",
+    "⭐⭐⭐": "⭐⭐⭐🌙🌙",
+    "⭐⭐": "⭐⭐🌙🌙🌙",
+    "⭐": "⭐🌙🌙🌙🌙"
+  };
+
   static getDisplayTitle(item: Zotero.Item): string {
     const rawTitle = item.getField("title");
     const extra = item.getField("extra").split("\n");
@@ -31,11 +39,9 @@ export class UIExampleFactory {
   static getStarRating(item: Zotero.Item): string {
     if (!getPref("enable-star")) return "";
 
-    if (item.hasTag("⭐⭐⭐⭐⭐")) return "⭐⭐⭐⭐⭐";
-    if (item.hasTag("⭐⭐⭐⭐")) return "⭐⭐⭐⭐🌙";
-    if (item.hasTag("⭐⭐⭐")) return "⭐⭐⭐🌙🌙";
-    if (item.hasTag("⭐⭐")) return "⭐⭐🌙🌙🌙";
-    if (item.hasTag("⭐")) return "⭐🌙🌙🌙🌙";
+    for (const [stars, starMoon] of Object.entries(UIExampleFactory.starTags)) {
+      if (item.hasTag(stars)) return starMoon;
+    }
 
     return "🌙🌙🌙🌙🌙";
   }
@@ -55,12 +61,11 @@ export class UIExampleFactory {
   }
 
   static async updateStarRating(value: number) {
-    const starTags = ["⭐⭐⭐⭐⭐", "⭐⭐⭐⭐", "⭐⭐⭐", "⭐⭐", "⭐"];
     const pane = Zotero.getActiveZoteroPane();
     const items = pane.getSelectedItems();
 
     for (const item of items) {
-      for (const tag of starTags) item.removeTag(tag);
+      for (const tag of Object.keys(UIExampleFactory.starTags)) item.removeTag(tag);
       if (value > 0) item.addTag("⭐".repeat(value));
     }
   }
