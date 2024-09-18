@@ -52,18 +52,12 @@ export class UIExampleFactory {
 
   static async registerShortcuts() {
     async function func(value: number | null) {
+      const starTags = ["⭐⭐⭐⭐⭐", "⭐⭐⭐⭐", "⭐⭐⭐", "⭐⭐", "⭐"];
       const pane = Zotero.getActiveZoteroPane();
       const items = pane.getSelectedItems();
       for (const item of items) {
-        const starTags = ["⭐⭐⭐⭐⭐", "⭐⭐⭐⭐", "⭐⭐⭐", "⭐⭐", "⭐"];
-        for (const tag of starTags) {
-          if (item.hasTag(tag)) {
-            item.removeTag(tag);
-          }
-        }
-        if (value > 0) {
-          item.addTag("⭐".repeat(value));
-        }
+        for (const tag of starTags) if (item.hasTag(tag)) item.removeTag(tag);
+        if (value > 0) item.addTag("⭐".repeat(value));
       }
     }
 
