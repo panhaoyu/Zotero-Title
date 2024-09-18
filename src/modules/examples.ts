@@ -51,7 +51,7 @@ export class UIExampleFactory {
   }
 
   static async registerShortcuts() {
-    function func(value: number | null) {
+    async function func(value: number | null) {
       const pane = Zotero.getActiveZoteroPane();
       const items = pane.getSelectedItems();
       for (const item of items) {
@@ -61,13 +61,16 @@ export class UIExampleFactory {
             item.removeTag(tag);
           }
         }
-        item.addTag("⭐".repeat(value));
+        if (value > 0) {
+          item.addTag("⭐".repeat(value));
+        }
       }
     }
 
     ztoolkit.Keyboard.register((ev, keyOptions) => {
-      if (ev.ctrlKey) {
+      if (ev.ctrlKey && ev.altKey) {
         switch (ev.key) {
+          case "0":
           case "1":
           case "2":
           case "3":
