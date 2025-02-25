@@ -118,7 +118,9 @@ function bindPrefEvents() {
   //   // );
   // });
 
-  addon.data.prefs!.window.document.querySelector(`#zotero-prefpane-${config.addonRef}-star-enable`)?.addEventListener("command", (e) => {
+  const enableStarId = `#zotero-prefpane-${config.addonRef}-star-enable`;
+  const enableStarElement = addon.data.prefs!.window.document.querySelector(enableStarId);
+  enableStarElement?.addEventListener("command", e => {
     setPref("enable-star", (e.target as XUL.Checkbox).checked);
   });
 
