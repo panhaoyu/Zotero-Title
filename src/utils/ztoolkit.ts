@@ -27,22 +27,19 @@ function initZToolkit(_ztoolkit: ReturnType<typeof createZToolkit>) {
   _ztoolkit.basicOptions.api.pluginID = config.addonID;
   _ztoolkit.ProgressWindow.setIconURI(
     "default",
-    `chrome://${config.addonRef}/content/icons/favicon.png`,
+    `chrome://${config.addonRef}/content/icons/favicon.png`
   );
 }
 
-import { BasicTool, unregister } from "zotero-plugin-toolkit/dist/basic";
-import { UITool } from "zotero-plugin-toolkit/dist/tools/ui";
-import { PreferencePaneManager } from "zotero-plugin-toolkit/dist/managers/preferencePane";
+import { BasicTool, unregister } from "zotero-plugin-toolkit";
+import { UITool } from "zotero-plugin-toolkit";
 
 class MyToolkit extends BasicTool {
   UI: UITool;
-  PreferencePane: PreferencePaneManager;
 
   constructor() {
     super();
     this.UI = new UITool(this);
-    this.PreferencePane = new PreferencePaneManager(this);
   }
 
   unregisterAll() {
