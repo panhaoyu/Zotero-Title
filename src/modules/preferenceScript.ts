@@ -109,29 +109,15 @@ async function updatePrefsUI() {
 }
 
 function bindPrefEvents() {
-  // Save the preferences
-  // addon.data.prefs!.window.document.querySelector(`#zotero-prefpane-${config.addonRef}-enable`)?.addEventListener("command", (e) => {
-  //   // ztoolkit.log(e);
-  //   setPref("enable-title", (e.target as XUL.Checkbox).checked);
-  //   // addon.data.prefs!.window.alert(
-  //   //   `Successfully changed to ${(e.target as XUL.Checkbox).checked}!`,
-  //   // );
-  // });
+  const enableTitleId = `#zotero-prefpane-${config.addonRef}-title-enable`;
+  const enableTitleElement = addon.data.prefs!.window.document.querySelector(enableTitleId);
+  enableTitleElement?.addEventListener("command", e => {
+    setPref("enable-title", (e.target as XULCheckboxElement).checked);
+  });
 
   const enableStarId = `#zotero-prefpane-${config.addonRef}-star-enable`;
   const enableStarElement = addon.data.prefs!.window.document.querySelector(enableStarId);
   enableStarElement?.addEventListener("command", e => {
     setPref("enable-star", (e.target as XULCheckboxElement).checked);
   });
-
-  // addon.data
-  //   .prefs!.window.document.querySelector(
-  //     `#zotero-prefpane-${config.addonRef}-input`,
-  //   )
-  //   ?.addEventListener("change", (e) => {
-  //     ztoolkit.log(e);
-  //     addon.data.prefs!.window.alert(
-  //       `Successfully changed to ${(e.target as HTMLInputElement).value}!`,
-  //     );
-  //   });
 }
