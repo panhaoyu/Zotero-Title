@@ -1,16 +1,14 @@
-import { config } from "../../package.json";
 import { getString } from "../utils/locale";
 import { getPref } from "../utils/prefs";
 
 export class BasicExampleFactory {
   static registerPrefs() {
-    ztoolkit.PreferencePane.register({
-      pluginID: config.addonID,
-      src: rootURI + "chrome/content/preferences.xhtml",
+    Zotero.PreferencePanes.register({
+      pluginID: addon.data.config.addonID,
+      src: rootURI + "content/preferences.xhtml",
       label: getString("prefs-title"),
-      image: `chrome://${config.addonRef}/content/icons/favicon.png`,
-      defaultXUL: true
-    });
+      image: `chrome://${addon.data.config.addonRef}/content/icons/favicon.png`
+    }).then();
   }
 }
 

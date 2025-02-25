@@ -19,7 +19,8 @@ export async function registerPrefsScripts(_window: Window) {
           dataKey: "detail",
           label: getString("prefs-table-detail")
         }
-      ]
+      ],
+      rows: []
       // rows: [
       //   {
       //     title: "Orange",
