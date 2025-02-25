@@ -1,3 +1,5 @@
 /* eslint-disable no-undef */
-pref("__prefsPrefix__.enable", true);
-pref("__prefsPrefix__.input", "This is input");
+pref("enable", true);
+pref("input", "This is input");
+pref("enable-translation", true);
+pref("enable-star", false);
