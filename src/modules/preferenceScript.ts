@@ -121,7 +121,7 @@ function bindPrefEvents() {
   const enableStarId = `#zotero-prefpane-${config.addonRef}-star-enable`;
   const enableStarElement = addon.data.prefs!.window.document.querySelector(enableStarId);
   enableStarElement?.addEventListener("command", e => {
-    setPref("enable-star", (e.target as XUL.Checkbox).checked);
+    setPref("enable-star", (e.target as XULCheckboxElement).checked);
   });
 
   // addon.data
