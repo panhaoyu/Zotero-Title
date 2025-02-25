@@ -22,8 +22,9 @@ async function onMainWindowLoad(win: Window): Promise<void> {
   addon.data.ztoolkit = createZToolkit();
 
   // @ts-ignore This is a moz feature
-  window.MozXULElement.insertFTLIfNeeded(`${config.addonRef}-mainWindow.ftl`);
-  addon.hooks.onDialogEvents("dialogExample");
+  win.MozXULElement.insertFTLIfNeeded(
+    `${addon.data.config.addonRef}-mainWindow.ftl`,
+  );
 }
 
 async function onMainWindowUnload(win: Window): Promise<void> {
@@ -36,7 +37,8 @@ function onShutdown(): void {
   addon.data.dialog?.window?.close();
   // Remove addon object
   addon.data.alive = false;
-  delete Zotero[config.addonInstance];
+  // @ts-ignore - Plugin instance is not typed
+  delete Zotero[addon.data.config.addonInstance];
 }
 
 /**
