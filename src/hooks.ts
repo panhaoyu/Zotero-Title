@@ -1,6 +1,6 @@
 import { BasicExampleFactory, UIExampleFactory } from "./modules/examples";
-import { config } from "../package.json";
 import { initLocale } from "./utils/locale";
+import { config } from "../package.json";
 import { registerPrefsScripts } from "./modules/preferenceScript";
 import { createZToolkit } from "./utils/ztoolkit";
 
