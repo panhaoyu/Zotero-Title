@@ -9,7 +9,7 @@ declare namespace _ZoteroTypes {
     PluginPrefsMap: {
       "enable": boolean;
       "input": string;
-      "enable-title": boolean;
+      "enable-translation": boolean;
       "enable-star": boolean;
     };
   }

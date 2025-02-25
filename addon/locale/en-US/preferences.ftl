@@ -15,3 +15,5 @@ pref-detail = This plug-in will replace the display function of the title.<br/>
 
 pref-star-enable =
     .label = Check to turn on the star rating in the title
+pref-translation-enable =
+    .label = Check to turn on the title translation

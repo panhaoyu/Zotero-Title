@@ -109,10 +109,10 @@ async function updatePrefsUI() {
 }
 
 function bindPrefEvents() {
-  const enableTitleId = `#zotero-prefpane-${config.addonRef}-title-enable`;
+  const enableTitleId = `#zotero-prefpane-${config.addonRef}-translation-enable`;
   const enableTitleElement = addon.data.prefs!.window.document.querySelector(enableTitleId);
   enableTitleElement?.addEventListener("command", e => {
-    setPref("enable-title", (e.target as XULCheckboxElement).checked);
+    setPref("enable-translation", (e.target as XULCheckboxElement).checked);
   });
 
   const enableStarId = `#zotero-prefpane-${config.addonRef}-star-enable`;
