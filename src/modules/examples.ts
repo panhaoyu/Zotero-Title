@@ -21,17 +21,22 @@ export class UIExampleFactory {
     "⭐": "⭐🌙🌙🌙🌙"
   };
 
-  static getDisplayTitle(item: Zotero.Item): string {
+  static getTranslatedTitle(item: Zotero.Item): string {
     const rawTitle = item.getField("title");
+    if (!getPref("enable-translation")) {
+      return rawTitle;
+    }
     const extra = item.getField("extra").split("\n");
     const mapping = Object.fromEntries(
       extra.map(i => i.split(":", 2)).filter(i => i.length === 2)
     );
-    const finalTitle = mapping["titleTranslation"] ?? rawTitle;
+    return mapping["titleTranslation"] ?? rawTitle;
+  }
 
+  static getDisplayTitle(item: Zotero.Item): string {
     const stars = UIExampleFactory.getStarRating(item);
-
-    return `${stars}${finalTitle}`;
+    const translation = UIExampleFactory.getTranslatedTitle(item);
+    return `${stars}${translation}`;
   }
 
   static getStarRating(item: Zotero.Item): string {
