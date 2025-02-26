@@ -13,10 +13,10 @@ pref-detail = 本插件将替换标题的显示功能。<br/>
     可能的冲突：<br>
     与 Ethereal Style 的 Title 功能可能存在冲突，请在其设置页面关闭相应的功能。<br>
 
-pref-star-enable =
+pref-enableStar =
     .label = 勾选以开启标题中的星级的显示功能
-pref-translation-enable =
+pref-enableTranslation =
     .label = 勾选以开启标题中的标题翻译功能
-pref-star-shortcuts-enable =
+pref-enableStarShortcuts =
     .label =
     .label = 检查以启用星标快捷方式 (Ctrl+Alt+[1-5] 设置星标；Ctrl+Alt+0 移除星标)

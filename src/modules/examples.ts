@@ -23,7 +23,7 @@ export class UIExampleFactory {
 
   static getTranslatedTitle(item: Zotero.Item): string {
     const rawTitle = item.getField("title");
-    if (!getPref("enable-translation")) {
+    if (!getPref("enableTranslation")) {
       return rawTitle;
     }
     const extra = item.getField("extra").split("\n");
@@ -40,7 +40,7 @@ export class UIExampleFactory {
   }
 
   static getStarRating(item: Zotero.Item): string {
-    if (!getPref("enable-star")) return "";
+    if (!getPref("enableStar")) return "";
 
     for (const [stars, starMoon] of Object.entries(UIExampleFactory.starTags)) {
       if (item.hasTag(stars)) return starMoon;
@@ -56,7 +56,7 @@ export class UIExampleFactory {
   }
 
   static async registerShortcuts() {
-    if (!getPref("enable-star-shortcuts")) return;
+    if (!getPref("enableStarShortcuts")) return;
     ztoolkit.Keyboard.register((ev, keyOptions) => {
       if (ev.ctrlKey && ev.altKey && /^[0-5]$/.test(ev.key)) {
         UIExampleFactory.updateStarRating(Number.parseInt(ev.key));

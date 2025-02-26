@@ -9,9 +9,9 @@ declare namespace _ZoteroTypes {
     PluginPrefsMap: {
       "enable": boolean;
       "input": string;
-      "enable-translation": boolean;
-      "enable-star": boolean;
-      "enable-star-shortcuts": boolean;
+      "enableTranslation": boolean;
+      "enableStar": boolean;
+      "enableStarShortcuts": boolean;
     };
   }
 }
