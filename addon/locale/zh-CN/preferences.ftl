@@ -18,5 +18,4 @@ pref-enableStar =
 pref-enableTranslation =
     .label = 勾选以开启标题中的标题翻译功能
 pref-enableStarShortcuts =
-    .label =
     .label = 检查以启用星标快捷方式 (Ctrl+Alt+[1-5] 设置星标；Ctrl+Alt+0 移除星标)
