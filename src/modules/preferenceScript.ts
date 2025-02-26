@@ -109,15 +109,21 @@ async function updatePrefsUI() {
 }
 
 function bindPrefEvents() {
-  const enableTitleId = `#zotero-prefpane-${config.addonRef}-translation-enable`;
-  const enableTitleElement = addon.data.prefs!.window.document.querySelector(enableTitleId);
-  enableTitleElement?.addEventListener("command", e => {
+  addon.data.prefs!.window.document.querySelector(
+    `#zotero-prefpane-${config.addonRef}-translation-enable`
+  )?.addEventListener("command", e => {
     setPref("enable-translation", (e.target as XULCheckboxElement).checked);
   });
 
-  const enableStarId = `#zotero-prefpane-${config.addonRef}-star-enable`;
-  const enableStarElement = addon.data.prefs!.window.document.querySelector(enableStarId);
-  enableStarElement?.addEventListener("command", e => {
+  addon.data.prefs!.window.document.querySelector(
+    `#zotero-prefpane-${config.addonRef}-star-enable`
+  )?.addEventListener("command", e => {
     setPref("enable-star", (e.target as XULCheckboxElement).checked);
+  });
+
+  addon.data.prefs!.window.document.querySelector(
+    `#zotero-prefpane-${config.addonRef}-star-shortcuts-enable`
+  )?.addEventListener("command", e => {
+    setPref("enable-star-shortcuts", (e.target as XULCheckboxElement).checked);
   });
 }

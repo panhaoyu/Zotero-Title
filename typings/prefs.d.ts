@@ -11,6 +11,7 @@ declare namespace _ZoteroTypes {
       "input": string;
       "enable-translation": boolean;
       "enable-star": boolean;
+      "enable-star-shortcuts": boolean;
     };
   }
 }

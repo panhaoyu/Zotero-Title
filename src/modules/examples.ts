@@ -70,6 +70,7 @@ export class UIExampleFactory {
     for (const item of items) {
       for (const tag of Object.keys(UIExampleFactory.starTags)) item.removeTag(tag);
       if (value > 0) item.addTag("⭐".repeat(value));
+      await item.saveTx();
     }
   }
 }

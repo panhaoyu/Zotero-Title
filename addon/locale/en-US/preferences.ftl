@@ -17,3 +17,5 @@ pref-star-enable =
     .label = Check to turn on the star rating in the title
 pref-translation-enable =
     .label = Check to turn on the title translation
+pref-star-shortcuts-enable =
+    .label = Check to turn on star shortcuts (Ctrl+Alt+[1-5] to set star; Ctrl+Alt+0 to remove star)
