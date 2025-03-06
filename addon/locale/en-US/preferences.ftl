@@ -18,4 +18,4 @@ pref-enableStar =
 pref-enableTranslation =
     .label = Check to turn on the title translation
 pref-enableStarShortcuts =
-    .label = Check to turn on star shortcuts (Ctrl+Alt+[1-5] to set star; Ctrl+Alt+0 to remove star)
+    .label = Check to turn on star shortcuts (Alt+Shift+[1-5] to set star; Alt+Shift+0 to remove star)
