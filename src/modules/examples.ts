@@ -58,7 +58,7 @@ export class UIExampleFactory {
   static async registerShortcuts() {
     if (!getPref("enableStarShortcuts")) return;
     ztoolkit.Keyboard.register((ev, keyOptions) => {
-      if (ev.type !== "keyup") return;
+      if (ev.type !== "keydown") return;
       if (ev.altKey && ev.shiftKey && /^Digit[0-5]$/.test(ev.code)) {
         UIExampleFactory.updateStarRating(parseInt(ev.code.replace("Digit", "")));
       }
