@@ -6,7 +6,7 @@
 async function processItems() {
   const library = ZoteroPane.getSelectedLibraryID();
   const items = (await Zotero.Items.getAll(library))
-    .filter(i => i.itemType === "journalArticle");
+    .filter(i => i.isTopLevelItem());
   if (!items || items.length === 0) {
     return;
   }
