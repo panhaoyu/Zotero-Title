@@ -69,10 +69,12 @@ export class UIExampleFactory {
     const pane = Zotero.getActiveZoteroPane();
     const items = pane.getSelectedItems();
 
-    for (const item of items) {
-      for (const tag of Object.keys(UIExampleFactory.starTags)) item.removeTag(tag);
-      if (value > 0) item.addTag("⭐".repeat(value));
-      await item.saveTx();
-    }
+    await Zotero.DB.executeTransaction(async () => {
+      for (const item of items) {
+        for (const tag of Object.keys(UIExampleFactory.starTags)) item.removeTag(tag);
+        if (value > 0) item.addTag("⭐".repeat(value));
+        await item.save();
+      }
+    });
   }
 }
