@@ -1,3 +1,5 @@
+const result = ['Log:']
+
 await Zotero.DB.executeTransaction(async () => {
   const items = Zotero.getActiveZoteroPane().getSelectedItems()
 
@@ -8,23 +10,32 @@ await Zotero.DB.executeTransaction(async () => {
   ])
 
   for (const item of items) {
-    if (!targetTypes.has(item.itemType)) continue
+
+    // 转换条目类型并清理标题格式
+    if (['webpage', 'document'].includes(item.itemType)) {
+      item.setType(journalArticleID)
+      const originalTitle = item.getField("title")
+      const processedTitle = originalTitle.split("|")[0]?.trim() || originalTitle
+      item.setField("title", processedTitle)
+    }
+
 
     // 删除当前条目的PDF附件
-    const attachmentIDs = item.getAttachments()
-    for (const id of attachmentIDs) {
-      const attachment = Zotero.Items.get(id)
-      if (attachment.attachmentContentType === "application/pdf") {
-        await attachment.erase()
+    if (item.itemType === 'journalArticle') {
+      const attachmentIDs = item.getAttachments()
+      for (const id of attachmentIDs) {
+        const attachment = Zotero.Items.get(id)
+        if (attachment.attachmentContentType === "application/pdf") {
+          await attachment.erase()
+        }
+        result.push(attachment.attachmentContentType)
       }
     }
 
-    // 转换条目类型并清理标题格式
-    item.setType(journalArticleID)
-    const originalTitle = item.getField("title")
-    const processedTitle = originalTitle.split("|")[0]?.trim() || originalTitle
-    item.setField("title", processedTitle)
+
     await item.save()
   }
 })
 
+// noinspection JSAnnotator
+return result.join('\n')
