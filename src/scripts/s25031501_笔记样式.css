@@ -1,0 +1,50 @@
+:root {
+    --custom-note-primary-color: #333;
+    --custom-note-background-color: hsl(194, 100%, 93%);
+    --custom-note-border-color: hsl(188, 90%, 64%);
+    --custom-note-shadow-color: hsl(0, 0%, 95%);
+}
+
+div, p {
+    font-family: "Times New Roman", "微软雅黑", "宋体", "黑体", serif;
+    line-height: 1.2;
+    font-size: 18px !important;
+}
+
+p {
+    margin-top: 4px;
+    margin-bottom: 4px;
+}
+
+h1, h2, h3, h4 {
+    position: relative;
+    border-radius: 5px;
+    font-size: 1.2em !important;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+h1::before, h2::before, h3::before, h4::before {
+    position: relative;
+    left: -10px;
+}
+
+h1, h2 {
+    background-color: var(--custom-note-background-color);
+    line-height: 1.8;
+}
+
+h2, h3, h4 {
+    padding-left: 5px !important;
+    border-radius: 0 5px 5px 0;
+}
+
+h2, h3 {
+    border-left: solid 5px var(--custom-note-border-color);
+}
+
+h1 {
+    border-bottom: solid 5px var(--custom-note-border-color);
+    box-shadow: 0 4px 8px var(--custom-note-shadow-color);
+    text-align: center;
+}
