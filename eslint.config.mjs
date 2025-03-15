@@ -9,6 +9,11 @@ export default tseslint.config(
   },
   {
     extends: [eslint.configs.recommended, ...tseslint.configs.recommended],
+    languageOptions: {
+      globals: {
+        Zotero: "readonly"
+      }
+    },
     rules: {
       "no-restricted-globals": [
         "error",
