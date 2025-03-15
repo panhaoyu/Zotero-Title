@@ -12,7 +12,7 @@ export default tseslint.config(
     rules: {
       "no-restricted-globals": [
         "error",
-        { message: "Use `Zotero.getMainWindow()` instead.", name: "window" },
+        {message: "Use `Zotero.getMainWindow()` instead.", name: "window"},
         {
           message: "Use `Zotero.getMainWindow().document` instead.",
           name: "document",

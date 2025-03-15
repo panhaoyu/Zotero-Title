@@ -1,5 +1,4 @@
-(async () => {
-  // eslint-disable-next-line no-undef
+Zotero.DB.executeTransaction(async () => {
   const items = Zotero.getActiveZoteroPane().getSelectedItems()
 
   if (!items || items.length === 0) {
@@ -14,6 +13,6 @@
       .join("\n");
 
     item.setField("extra", newExtra);
-    await item.saveTx();
+    await item.save();
   }
-})().then()
+})
